@@ -1,11 +1,15 @@
 import java.util.ArrayList;
+import java.util.Random;
+import java.util.List;
 
 /**
  * A class to hold details of audio tracks.
  * Individual tracks may be played.
+ * This class has been updated to support a randomSong feature
+ * and a non-repeat single shuffle feature.
  * 
- * @author David J. Barnes and Michael Kölling
- * @version 2016.02.29
+ * @author Henry Petrillo
+ * @version 2024.10.07
  */
 public class MusicOrganizer
 {
@@ -168,6 +172,31 @@ public class MusicOrganizer
         // Put all thetracks into the organizer.
         for(Track track : tempTracks) {
             addTrack(track);
+        }
+    }
+    
+    public void randomSong() {
+        Random randomNumber = new Random();
+        int totalTracks = getNumberOfTracks();
+        playTrack(randomNumber.nextInt(totalTracks));
+    }
+    
+    public void singleShuffle() {
+        int total = getNumberOfTracks();
+        Random randomNumber = new Random();
+        List<Track> tempTracks = new ArrayList<>(tracks);
+        List<Track> shuffledTracks = new ArrayList<>();
+        
+        // Shuffling Feature
+        for (int i = 0; i < total; i++) {
+            int randomIndex = randomNumber.nextInt(tempTracks.size());
+            shuffledTracks.add(tempTracks.get(randomIndex));
+            tempTracks.remove(randomIndex);
+        }
+        
+        // Play shuffled Tracks
+        for (Track track : shuffledTracks) {
+            playTrack(tracks.indexOf(track));
         }
     }
 }
